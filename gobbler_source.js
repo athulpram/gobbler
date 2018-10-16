@@ -10,7 +10,7 @@ const generateLine = function (symbol,length){
 
 const createPlayground = function (grid){
   let playground=[];
-  playground[0] = generateLine("-",30);
+  playground[0] = generateLine("-",32);
   for(let row=1;row<=10;row++){
     playground[row]="|";
     for(let column = (row-1)*10;column<row*10;column++){
@@ -18,23 +18,25 @@ const createPlayground = function (grid){
     }
     playground[row]+="|"
   }
-  playground[11] = generateLine("-",30);
+  playground[11] = generateLine("-",32);
   return playground;
 }
 
 const changeEaterPosition = function (positionOfEater){
   let inputForMoving = readline.question("choose your move:w,a,s,d : ");
-  if ( inputForMoving == 'w'){
+  if ( inputForMoving == 'w' && positionOfEater>9){
     positionOfEater = positionOfEater - 10;
   }
-  else if ( inputForMoving == 's'){
+  else if ( inputForMoving == 's' && positionOfEater<90){
     positionOfEater = positionOfEater + 10;
   }
-  else if (inputForMoving == 'a'){
+  else if (inputForMoving == 'a' && positionOfEater%10!=0){
     positionOfEater = positionOfEater - 1;
   }
-  else if (inputForMoving == 'd'){
+  else if (inputForMoving == 'd' && (positionOfEater+1)%10!=0){
     positionOfEater = positionOfEater + 1;
+  }else{
+    console.log("Sorry dude , You are dead!!");
   }
   return positionOfEater;
 }
