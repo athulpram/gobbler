@@ -1,3 +1,5 @@
+const readline = require('readline-sync');
+
 const generateLine = function (symbol,length){
   let line = "";
   for (index = 0; index < length ; index++){
@@ -20,14 +22,34 @@ const createPlayground = function (grid){
   return playground;
 }
 
+const changeEaterPosition = function (positionOfEater){
+  let inputForMoving = readline.question("choose your move:w,a,s,d : ");
+  if ( inputForMoving == 'w'){
+    positionOfEater = positionOfEater - 10;
+  }
+  else if ( inputForMoving == 's'){
+    positionOfEater = positionOfEater + 10;
+  }
+  else if (inputForMoving == 'a'){
+    positionOfEater = positionOfEater - 1;
+  }
+  else if (inputForMoving == 'd'){
+    positionOfEater = positionOfEater + 1;
+  }
+  return positionOfEater;
+}
+
 const main = function(){
-  //output = generateLine('*',39);
-  //console.log(output);
-  let grid=Array(100).fill("   ");
-  grid[92]="{+}"
-  array=createPlayground(grid);
-  for(line=0;line<12;line++){
-    console.log(array[line]);
+  let positionOfEater = 55 ;
+  while(1){
+    console.clear();
+    let grid=Array(100).fill("   ");
+    grid[positionOfEater]="{+}"
+    array=createPlayground(grid);
+    for(line=0;line<12;line++){
+      console.log(array[line]);
+    }
+    positionOfEater = changeEaterPosition(positionOfEater);
   }
 }
 main();
