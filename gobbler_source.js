@@ -23,7 +23,21 @@ const createPlayground = function (grid){
 }
 
 const changeEaterPosition = function (positionOfEater){
+  gobblerPositions = {
+    "w" : function(positionOfEater){if (positionOfEater > 9) {return positionOfEater-10;} else {return positionOfEater;} },
+    "s" : function(positionOfEater){if (positionOfEater < 90 ) {return positionOfEater+10;} else {return positionOfEater;} },
+    "a" : function(positionOfEater){if (positionOfEater%10 != 0) {return positionOfEater-1;} else {return positionOfEater;} },
+    "d" : function(positionOfEater){if ((positionOfEater+1)!= 0) {return positionOfEater+1;} else {return positionOfEater;} },
+    "otherwise" : function(positionOfEater) {console.log("Sorry. Game over !"); process.exit();}
+  }
+
   let inputForMoving = readline.question("choose your move:w,a,s,d : ");
+  if( inputForMoving != 'w' && inputForMoving != 'a' && inputForMoving != 's' && inputForMoving != 'd'){
+    inputForMoving = "otherwise";
+  }
+  return gobblerPositions[inputForMoving](positionOfEater);
+
+  /*
   if ( inputForMoving == 'w' && positionOfEater>9){
     positionOfEater = positionOfEater - 10;
   }
@@ -39,7 +53,7 @@ const changeEaterPosition = function (positionOfEater){
     console.log("Sorry dude , You are dead!!");
     process.exit();
   }
-  return positionOfEater;
+  return positionOfEater;*/
 }
 
 const generateFoodPosition = function(){
