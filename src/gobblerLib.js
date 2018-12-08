@@ -1,8 +1,9 @@
-const readline = require('readline-sync');
+const readline = require('readline');
 let gobblerStatus = {
   foodPosition : 10, 
   positionOfEater : 55,
-  score : 0
+  score : 0,
+  inputForMoving : "w"
 }
 const generateLine = function (symbol,length){
   let line = "";
@@ -23,7 +24,7 @@ const gobbler = function(){
     console.log(array[line]);
   }
   printScore(score);
-  positionOfEater = changeEaterPosition(positionOfEater);
+  //positionOfEater = changeEaterPosition(positionOfEater);
   if(positionOfEater==foodPosition){
     foodPosition=generateFoodPosition();
     score += 1;
@@ -32,7 +33,10 @@ const gobbler = function(){
 }
 
 const runGobbler=function(){
-  setInterval(gobbler,1000);
+  readline.emitKeypressEvents(process.stdin);
+  process.stdin.setRawMode(true);
+  process.stdin.on('keypress',changeEaterPosition);
+  setInterval(gobbler,100);
 }
 
 const createPlayground = function (grid){
@@ -49,7 +53,8 @@ const createPlayground = function (grid){
   return playground;
 }
 
-const changeEaterPosition = function (positionOfEater){
+const changeEaterPosition = function (inputForMoving){
+  let positionOfEater = gobblerStatus.positionOfEater;
   gobblerPositions = {
     "w" : function(positionOfEater){if (positionOfEater > 9) {return positionOfEater-10;} else {return positionOfEater;} },
     "s" : function(positionOfEater){if (positionOfEater < 90 ) {return positionOfEater+10;} else {return positionOfEater;} },
@@ -58,11 +63,12 @@ const changeEaterPosition = function (positionOfEater){
     "otherwise" : function(positionOfEater) {console.log("Sorry. Game over !"); process.exit();}
   }
 
-  let inputForMoving = readline.question("choose your move:w,a,s,d : ");
   if( inputForMoving != 'w' && inputForMoving != 'a' && inputForMoving != 's' && inputForMoving != 'd'){
-    inputForMoving = "otherwise";
+    inputForMoving = gobblerStatus.inputForMoving;
   }
-  return gobblerPositions[inputForMoving](positionOfEater);
+  gobblerStatus.inputForMoving = inputForMoving;
+  gobblerStatus.positionOfEater= gobblerPositions[inputForMoving](positionOfEater);
+  console.log(gobblerStatus.position);
 }
 
 const generateFoodPosition = function(){
