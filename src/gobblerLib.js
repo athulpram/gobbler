@@ -1,11 +1,38 @@
 const readline = require('readline-sync');
-
+let gobblerStatus = {
+  foodPosition : 10, 
+  positionOfEater : 55,
+  score : 0
+}
 const generateLine = function (symbol,length){
   let line = "";
   for (index = 0; index < length ; index++){
     line = line + symbol;
   }
   return line;
+}
+
+const gobbler = function(){
+  console.clear();
+  let {positionOfEater,foodPosition,score} = gobblerStatus;
+  let grid=new Array(100).fill("   ");
+  grid[positionOfEater]="{+}"
+  grid[foodPosition]=" O ";
+  array=createPlayground(grid);
+  for(line=0;line<12;line++){
+    console.log(array[line]);
+  }
+  printScore(score);
+  positionOfEater = changeEaterPosition(positionOfEater);
+  if(positionOfEater==foodPosition){
+    foodPosition=generateFoodPosition();
+    score += 1;
+  }
+  gobblerStatus = {positionOfEater,foodPosition,score};
+}
+
+const runGobbler=function(){
+  setInterval(gobbler,1000);
 }
 
 const createPlayground = function (grid){
@@ -52,4 +79,6 @@ module.exports = {
   generateFoodPosition,
   changeEaterPosition,
   createPlayground,
-  generateLine}
+  generateLine,
+  runGobbler
+}
