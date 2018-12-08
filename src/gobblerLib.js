@@ -15,6 +15,8 @@ const generateLine = function (symbol,length){
 
 const gobbler = function(){
   console.clear();
+  console.log(gobblerStatus.inputForMoving);
+  changeEaterPosition(gobblerStatus.inputForMoving);
   let {positionOfEater,foodPosition,score} = gobblerStatus;
   let grid=new Array(100).fill("   ");
   grid[positionOfEater]="{+}"
@@ -24,12 +26,14 @@ const gobbler = function(){
     console.log(array[line]);
   }
   printScore(score);
-  //positionOfEater = changeEaterPosition(positionOfEater);
   if(positionOfEater==foodPosition){
     foodPosition=generateFoodPosition();
     score += 1;
   }
-  gobblerStatus = {positionOfEater,foodPosition,score};
+  console.log('end');
+  console.log(gobblerStatus.inputForMoving);
+  gobblerStatus.foodPosition = foodPosition;
+  gobblerStatus.score = score;
 }
 
 const runGobbler=function(){
@@ -67,8 +71,7 @@ const changeEaterPosition = function (inputForMoving){
     inputForMoving = gobblerStatus.inputForMoving;
   }
   gobblerStatus.inputForMoving = inputForMoving;
-  gobblerStatus.positionOfEater= gobblerPositions[inputForMoving](positionOfEater);
-  console.log(gobblerStatus.position);
+  gobblerStatus.positionOfEater= gobblerPositions[gobblerStatus.inputForMoving](positionOfEater);
 }
 
 const generateFoodPosition = function(){
