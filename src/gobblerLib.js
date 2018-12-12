@@ -15,12 +15,11 @@ const generateLine = function (symbol, length) {
 
 const gobbler = function () {
   console.clear();
-  console.log(gobblerStatus.inputForMoving);
   changeEaterPosition(gobblerStatus.inputForMoving);
   let { positionOfEater, foodPosition, score } = gobblerStatus;
   let grid = new Array(100).fill("   ");
-  grid[positionOfEater] = "{+}"
   grid[foodPosition] = " O ";
+  grid[positionOfEater] = "{+}";
   array = createPlayground(grid);
   for (line = 0; line < 12; line++) {
     console.log(array[line]);
@@ -38,8 +37,12 @@ const gobbler = function () {
 const runGobbler = function () {
   readline.emitKeypressEvents(process.stdin);
   process.stdin.setRawMode(true);
-  process.stdin.on('keypress', changeEaterPosition);
-  setInterval(gobbler, 100);
+  process.stdin.on('keypress', changeMovingInput);
+  setInterval(gobbler, 500);
+}
+
+const changeMovingInput = function(inputToMove){
+  gobblerStatus.inputForMoving = inputToMove;
 }
 
 const createPlayground = function (grid) {
@@ -60,29 +63,33 @@ const moveUp = function (positionOfEater) {
   if (positionOfEater > 9) {
     return positionOfEater - 10;
   }
-  return positionOfEater
+  gameOver();
 }
 
 const moveLeft = function (positionOfEater) {
   if (positionOfEater % 10 != 0) {
     return positionOfEater - 1;
-  } else { return positionOfEater; }
+  }
+  gameOver();
 }
 
 const moveRight = function (positionOfEater) {
-  if ((positionOfEater + 1) != 0) {
+  if ((positionOfEater + 1)%10 != 0) {
     return positionOfEater + 1;
-  } else {
-    return positionOfEater;
   }
+  gameOver();
 }
 
 const moveDown = function (positionOfEater) {
   if (positionOfEater < 90) {
     return positionOfEater + 10;
-  } else {
-    return positionOfEater;
-  }
+  } 
+  gameOver();
+}
+
+const gameOver = function(){
+  console.log("Sorry Game Over \n Your Score is ",gobblerStatus.score);
+  process.exit();
 }
 
 const changeEaterPosition = function (inputForMoving) {
