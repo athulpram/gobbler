@@ -1,0 +1,14 @@
+{
+  "name": "gobbler",
+  "version": "0.1.2",
+  "description": "a simple gobbler game",
+  "main": "gobbler.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Athul P R,Arnab, Arif",
+  "license": "ISC",
+  "dependencies": {
+    "axel": "0.0.3"
+  }
+}
